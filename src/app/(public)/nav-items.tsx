@@ -1,36 +1,32 @@
 "use client"
 
-import { getAccessTokenFromLocalStorage } from "@/lib/utils"
+import { useAppContext } from "@/components/app-provider"
 import Link from "next/link"
-import { useEffect, useState } from "react"
 
 const menuItems = [
     {
         title: "Món ăn",
-        href: "/menu"
+        href: "/menu",
     },
     {
         title: "Đơn hàng",
         href: "/orders",
-        authRequired: true
+        authRequired: true,
     },
     {
         title: "Đăng nhập",
         href: "/login",
-        authRequired: false
+        authRequired: false,
     },
     {
         title: "Quản lý",
         href: "/manage/dashboard",
-        authRequired: true
-    }
+        authRequired: true,
+    },
 ]
 
 export default function NavItems({ className }: { className?: string }) {
-    const [isAuth, setIsAuth] = useState(false)
-    useEffect(() => {
-        setIsAuth(Boolean(getAccessTokenFromLocalStorage()))
-    }, [])
+    const { isAuth } = useAppContext()
     return menuItems.map((item) => {
         if (
             (item.authRequired === false && isAuth) ||
