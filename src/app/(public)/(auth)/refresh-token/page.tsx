@@ -7,9 +7,9 @@ import {
 } from "@/lib/utils"
 import { useLogoutMutation } from "@/queries/useAuth"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useRef } from "react"
+import { Suspense, useEffect, useRef } from "react"
 
-export default function RefreshTokenPage() {
+function RefreshToken() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const refreshTokenFromUrl = searchParams.get("refreshToken")
@@ -30,4 +30,12 @@ export default function RefreshTokenPage() {
         }
     }, [router, refreshTokenFromUrl, redirectPathname])
     return <div>refresh token ...</div>
+}
+
+export default function RefreshTokenPage() {
+    return (
+        <Suspense fallback={<>Loading...</>}>
+            <RefreshToken />
+        </Suspense>
+    )
 }
