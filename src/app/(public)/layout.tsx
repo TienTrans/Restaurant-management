@@ -1,18 +1,18 @@
-import Link from "next/link";
-import { Menu, Package2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import NavItems from "@/app/(public)/nav-items";
-import DarkModeToggle from "@/components/dark-mode-toggle";
+import Link from "next/link"
+import { Menu, Package2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import NavItems from "@/app/(public)/nav-items"
+import DarkModeToggle from "@/components/dark-mode-toggle"
 
 export default function Layout({
     children,
 }: Readonly<{
-    children: React.ReactNode;
+    children: React.ReactNode
 }>) {
     return (
         <div className="flex min-h-screen w-full flex-col relative">
-            <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+            <header className="sticky z-20 top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
                         href="#"
@@ -58,5 +58,5 @@ export default function Layout({
                 {children}
             </main>
         </div>
-    );
+    )
 }

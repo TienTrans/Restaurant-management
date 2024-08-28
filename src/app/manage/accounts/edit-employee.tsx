@@ -98,6 +98,7 @@ export default function EditEmployee({
             toast({
                 description: result.payload.message,
             })
+            reset()
             onSubmitSuccess && onSubmitSuccess()
         } catch (error) {
             handleErrorApi({ error, setError: form.setError })
@@ -131,6 +132,7 @@ export default function EditEmployee({
                         className="grid auto-rows-max items-start gap-4 md:gap-8"
                         id="edit-employee-form"
                         onSubmit={form.handleSubmit(onSubmit)}
+                        onReset={reset}
                     >
                         <div className="grid gap-4 py-4">
                             <FormField

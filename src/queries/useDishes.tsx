@@ -1,5 +1,9 @@
 import dishesApiRequest from "@/apiRequests/dishes"
-import { CreateDishBodyType } from "@/schemaValidations/dish.schema"
+import {
+    CreateDishBodyType,
+    UpdateDishBody,
+    UpdateDishBodyType,
+} from "@/schemaValidations/dish.schema"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useListDishes = () => {
@@ -30,10 +34,16 @@ export const useAddDishMutation = () => {
 }
 
 export const useUpdateDishMutation = () => {
+    const queryClient = useQueryClient()
     return useMutation({
         mutationKey: ["updateDishes"],
-        mutationFn: ({ id, body }: { id: number; body: CreateDishBodyType }) =>
+        mutationFn: ({ id, ...body }: UpdateDishBodyType & { id: number }) =>
             dishesApiRequest.updateDish(id, body),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["dishes"],
+            })
+        },
     })
 }
 

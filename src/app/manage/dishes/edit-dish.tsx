@@ -37,6 +37,12 @@ import {
 } from "@/schemaValidations/dish.schema"
 import { DishStatus, DishStatusValues } from "@/constants/type"
 import { Textarea } from "@/components/ui/textarea"
+import {
+    useDetailDish,
+    useListDishes,
+    useUpdateDishMutation,
+} from "@/queries/useDishes"
+import { useUploadMediaMutation } from "@/queries/useMedia"
 
 export default function EditDish({
     id,
@@ -47,6 +53,9 @@ export default function EditDish({
     setId: (value: number | undefined) => void
     onSubmitSuccess?: () => void
 }) {
+    const { data } = useDetailDish({ id: id! })
+    const updateDishMutation = useUpdateDishMutation()
+    const uploadMediaMutation = useUploadMediaMutation()
     const [file, setFile] = useState<File | null>(null)
     const imageInputRef = useRef<HTMLInputElement | null>(null)
     const form = useForm<UpdateDishBodyType>({
@@ -67,6 +76,53 @@ export default function EditDish({
         }
         return image
     }, [file, image])
+    useEffect(() => {
+        if (data) {
+            const { image, description, price, name, status } =
+                data.payload.data
+            form.reset({
+                name,
+                description,
+                price,
+                image: image ?? undefined,
+                status,
+            })
+        }
+    }, [data, form])
+
+    const submit = async (values: UpdateDishBodyType) => {
+        if (updateDishMutation.isPending) return
+        let body: UpdateDishBodyType & { id: number } = {
+            id: id as number,
+            ...values,
+        }
+        try {
+            if (file) {
+                const formData = new FormData()
+                formData.append("file", file)
+                const uploadImageResult = await uploadMediaMutation.mutateAsync(
+                    formData
+                )
+                const imageUrl = uploadImageResult.payload.data
+                body = {
+                    ...body,
+                    image: imageUrl,
+                }
+            }
+            const result = await updateDishMutation.mutateAsync(body)
+            toast({
+                description: result.payload.message,
+            })
+            onReset()
+        } catch (error) {
+            handleErrorApi({ error, setError: form.setError })
+        }
+    }
+    const onReset = () => {
+        setId(undefined)
+        setFile(null)
+    }
+
     return (
         <Dialog
             open={Boolean(id)}
@@ -88,6 +144,7 @@ export default function EditDish({
                         noValidate
                         className="grid auto-rows-max items-start gap-4 md:gap-8"
                         id="edit-dish-form"
+                        onSubmit={form.handleSubmit(submit)}
                     >
                         <div className="grid gap-4 py-4">
                             <FormField
