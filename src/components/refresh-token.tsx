@@ -19,16 +19,14 @@ export default function RefreshToken() {
         })
         // phai set timeout be hon thoi gian het han cua accessToken
         const TIMEOUT = 1000
-        interval = setInterval(
-            () =>
-                checkAndRefreshToken({
-                    onError: () => {
-                        clearInterval(interval)
-                        router.push("/login")
-                    },
-                }),
-            TIMEOUT
-        )
+        interval = setInterval(() => {
+            checkAndRefreshToken({
+                onError: () => {
+                    clearInterval(interval)
+                    router.push("/login")
+                },
+            })
+        }, TIMEOUT)
         return () => clearInterval(interval)
     }, [pathname, router])
     return null

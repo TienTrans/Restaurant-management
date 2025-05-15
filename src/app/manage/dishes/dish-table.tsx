@@ -220,7 +220,7 @@ function AlertDialogDeleteDish({
     )
 }
 // Số lượng item trên 1 trang
-const PAGE_SIZE = 10
+const PAGE_SIZE = 5
 export default function DishTable() {
     const searchParam = useSearchParams()
     const page = searchParam.get("page") ? Number(searchParam.get("page")) : 1
@@ -239,7 +239,6 @@ export default function DishTable() {
         pageIndex, // Gía trị mặc định ban đầu, không có ý nghĩa khi data được fetch bất đồng bộ
         pageSize: PAGE_SIZE, //default page size
     })
-    console.log(dishIdEdit)
 
     const table = useReactTable({
         data,

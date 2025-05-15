@@ -43,6 +43,7 @@ import {
     useUpdateDishMutation,
 } from "@/queries/useDishes"
 import { useUploadMediaMutation } from "@/queries/useMedia"
+import revalidateApiRequest from "@/apiRequests/revalidate"
 
 export default function EditDish({
     id,
@@ -110,6 +111,7 @@ export default function EditDish({
                 }
             }
             const result = await updateDishMutation.mutateAsync(body)
+            await revalidateApiRequest("dishes")
             toast({
                 description: result.payload.message,
             })

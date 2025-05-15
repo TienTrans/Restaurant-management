@@ -1,12 +1,20 @@
 "use client"
 import RefreshToken from "@/components/refresh-token"
 import {
+    decodeJWT,
     getAccessTokenFromLocalStorage,
     removeTokenFromLocalStorage,
 } from "@/lib/utils"
+import { RoleType, TokenPayload } from "@/types/jwt.types"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { createContext, useContext, useEffect, useState } from "react"
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useState,
+} from "react"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -20,7 +28,8 @@ const queryClient = new QueryClient({
 
 const AppContext = createContext({
     isAuth: false,
-    setIsAuth: (isAuth: boolean) => {},
+    role: undefined as RoleType | undefined,
+    setRole: (role?: RoleType | undefined) => {},
 })
 
 export const useAppContext = () => {
@@ -32,23 +41,23 @@ export default function AppProvider({
 }: {
     children: React.ReactNode
 }) {
-    const [isAuth, setIsAuthState] = useState(false)
+    const [role, setRoleState] = useState<RoleType | undefined>(undefined)
     useEffect(() => {
         const accessToken = getAccessTokenFromLocalStorage()
         if (accessToken) {
-            setIsAuthState(true)
+            const role = decodeJWT(accessToken).role
+            setRoleState(role)
         }
     }, [])
-    const setIsAuth = (isAuth: boolean) => {
-        if (isAuth) {
-            setIsAuthState(true)
-        } else {
-            setIsAuthState(false)
+    const setRole = useCallback((role?: RoleType | undefined) => {
+        setRoleState(role)
+        if (!role) {
             removeTokenFromLocalStorage()
         }
-    }
+    }, [])
+    const isAuth = Boolean(role)
     return (
-        <AppContext.Provider value={{ isAuth, setIsAuth }}>
+        <AppContext.Provider value={{ isAuth, role, setRole }}>
             <QueryClientProvider client={queryClient}>
                 <RefreshToken />
                 {children}
