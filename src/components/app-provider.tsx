@@ -1,4 +1,5 @@
 "use client";
+import ListenLogoutSocket from "@/components/listen-logout-socket";
 import RefreshToken from "@/components/refresh-token";
 import {
   decodeJWT,
@@ -82,6 +83,7 @@ export default function AppProvider({
     >
       <QueryClientProvider client={queryClient}>
         <RefreshToken />
+        <ListenLogoutSocket />
         {children}
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
