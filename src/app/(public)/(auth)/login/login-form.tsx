@@ -18,7 +18,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { generateSocketInstace, handleErrorApi } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useAppContext } from "@/components/app-provider";
 import envConfig from "@/config";
 import Link from "next/link";
 
@@ -44,7 +43,8 @@ export default function LoginForm() {
   const loginMutation = useLoginMutation();
   const router = useRouter();
   const params = useSearchParams();
-  const { setRole, setSocket } = useAppContext();
+  const setRole = useAppStore((state) => state.setRole);
+  const setSocket = useAppStore((state) => state.setSocket);
   const clearToken = params.get("clearToken");
   const { toast } = useToast();
   const form = useForm<LoginBodyType>({

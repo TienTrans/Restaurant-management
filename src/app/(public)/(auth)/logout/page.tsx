@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppContext } from "@/components/app-provider";
+import { useAppStore } from "@/components/app-provider";
 import {
   getAccessTokenFromLocalStorage,
   getRefeshTokenFromLocalStorage,
@@ -13,7 +13,8 @@ function Logout() {
   const { mutateAsync } = useLogoutMutation();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setRole, disconnectSocket } = useAppContext();
+  const setRole = useAppStore((state) => state.setRole);
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket);
   const accessTokenFromUrl = searchParams.get("accessToken");
   const refreshTokenFromUrl = searchParams.get("refreshToken");
   const ref = useRef<any>(null);

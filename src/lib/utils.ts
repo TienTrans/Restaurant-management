@@ -211,6 +211,9 @@ export const generateSocketInstace = (accessToken: string) => {
     },
   });
 };
+export const decodeToken = (token: string) => {
+  return jwt.decode(token) as TokenPayload;
+};
 
 export const OrderStatusIcon = {
   [OrderStatus.Pending]: Loader,

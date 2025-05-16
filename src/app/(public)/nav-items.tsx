@@ -1,12 +1,12 @@
 "use client";
 
-import { useAppContext } from "@/components/app-provider";
 import { Role } from "@/constants/type";
 import { cn, handleErrorApi } from "@/lib/utils";
 import { useLogoutMutation } from "@/queries/useAuth";
 import { RoleType } from "@/types/jwt.types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/components/app-provider";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -51,9 +51,11 @@ const menuItems: {
 ];
 
 export default function NavItems({ className }: { className?: string }) {
-  const { role, setRole, disconnectSocket } = useAppContext();
   const logoutMutation = useLogoutMutation();
   const router = useRouter();
+  const role = useAppStore((state) => state.role);
+  const setRole = useAppStore((state) => state.setRole);
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket);
   const logout = async () => {
     if (logoutMutation.isPending) return;
     try {
