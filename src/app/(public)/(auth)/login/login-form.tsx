@@ -20,6 +20,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import envConfig from "@/config";
 import Link from "next/link";
+import { useAppStore } from "@/components/app-provider";
 
 const getOauthGoogleUrl = () => {
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
