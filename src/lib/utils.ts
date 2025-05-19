@@ -12,8 +12,8 @@ import { TokenPayload } from "@/types/jwt.types";
 import guestApiRequest from "@/apiRequests/guest";
 import { BookX, CookingPot, HandCoins, Loader, Truck } from "lucide-react";
 import { format } from "date-fns";
+import slugify from "slugify";
 import { io } from "socket.io-client";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -225,6 +225,14 @@ export const wrapServerApi = async <T>(fn: () => Promise<T>) => {
     }
   }
   return result;
+};
+
+export const generateSlugUrl = ({ name, id }: { name: string; id: number }) => {
+  return `${slugify(name)}-i.${id}`;
+};
+
+export const getIdFromSlugUrl = (slug: string) => {
+  return Number(slug.split("-i.")[1]);
 };
 
 export const OrderStatusIcon = {

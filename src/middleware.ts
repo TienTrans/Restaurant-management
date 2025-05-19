@@ -1,6 +1,5 @@
 import { Role } from "@/constants/type";
 import { decodeJWT } from "@/lib/utils";
-import { decode } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
