@@ -4,7 +4,7 @@ import { useAppStore } from "@/components/app-provider";
 import {
   getAccessTokenFromLocalStorage,
   getRefeshTokenFromLocalStorage,
-} from "@/lib/utils";
+} from "@/lib/token-utils";
 import { useLogoutMutation } from "@/queries/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";

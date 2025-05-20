@@ -15,12 +15,14 @@ import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginMutation } from "@/queries/useAuth";
 import { useToast } from "@/components/ui/use-toast";
-import { generateSocketInstace, handleErrorApi } from "@/lib/utils";
+import { generateSocketInstace } from "@/lib/socket-client";
+import { handleErrorApi } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import envConfig from "@/config";
 import Link from "next/link";
 import { useAppStore } from "@/components/app-provider";
+import { LoaderCircle } from "lucide-react";
 
 const getOauthGoogleUrl = () => {
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -63,7 +65,11 @@ export default function LoginForm() {
   }, [clearToken, setRole]);
 
   const onSubmit = async (data: LoginBodyType) => {
-    if (loginMutation.isPending) return;
+    {
+      loginMutation.isPending && (
+        <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />
+      );
+    }
     try {
       const result = await loginMutation.mutateAsync(data); // Uncomment this line
       toast({

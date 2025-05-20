@@ -6,11 +6,12 @@ import { Metadata } from "next";
 
 const url = `${envConfig.NEXT_PUBLIC_URL}/dishes/[slug]`;
 
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { slug: string };
-}) => {
+export const generateMetadata = async (
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+) => {
+  const params = await props.params;
   const data = await wrapServerApi(() =>
     dishesApiRequest.getDishDetail(Number(getIdFromSlugUrl(params.slug)))
   );
@@ -23,13 +24,19 @@ export const generateMetadata = async ({
   };
 };
 
-export default async function DishPage({
-  params: { slug },
-}: {
-  params: {
-    slug: string;
-  };
-}) {
+export default async function DishPage(
+  props: {
+    params: Promise<{
+      slug: string;
+    }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const data = await wrapServerApi(() =>
     dishesApiRequest.getDishDetail(Number(getIdFromSlugUrl(slug)))
   );

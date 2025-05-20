@@ -1,13 +1,19 @@
 import { Role } from "@/constants/type";
-import { decodeJWT } from "@/lib/utils";
+import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { TokenPayload } from "@/types/jwt.types";
 
 const managePaths = ["/manage"];
 const guestPaths = ["/guest"];
 const onlyOwnerPaths = ["/manage/accounts"];
 const privatePaths = [...managePaths, ...guestPaths];
 const unAuthPath = ["/login"];
+
+// Hàm decode JWT an toàn cho Edge Runtime
+const decodeJWT = (token: string) => {
+  return jwtDecode(token) as TokenPayload;
+};
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {

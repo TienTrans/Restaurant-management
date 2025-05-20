@@ -1,6 +1,6 @@
 "use client";
 
-import { checkAndRefreshToken } from "@/lib/utils";
+import { checkAndRefreshToken } from "@/lib/token-utils";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAppStore } from "./app-provider";

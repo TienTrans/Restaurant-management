@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import AppProvider from "@/components/app-provider";
 import { cn } from "@/lib/utils";
+import NextTopLoader from "nextjs-toploader";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <NextTopLoader showSpinner={false} color="hsl(var(--foreground))" />
         <AppProvider>
           <ThemeProvider
             attribute="class"

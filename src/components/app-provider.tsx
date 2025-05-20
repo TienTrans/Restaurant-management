@@ -2,12 +2,11 @@
 import ListenLogoutSocket from "@/components/listen-logout-socket";
 import RefreshToken from "@/components/refresh-token";
 import {
-  decodeJWT,
+  decodeToken,
   getAccessTokenFromLocalStorage,
   removeTokenFromLocalStorage,
-  generateSocketInstace,
-  decodeToken,
-} from "@/lib/utils";
+} from "@/lib/token-utils";
+import { generateSocketInstace } from "@/lib/socket-client";
 import { RoleType, TokenPayload } from "@/types/jwt.types";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

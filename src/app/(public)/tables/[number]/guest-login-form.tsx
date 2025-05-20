@@ -13,7 +13,8 @@ import {
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useGuestLoginMutation } from "@/queries/useGuest";
-import { generateSocketInstace, handleErrorApi } from "@/lib/utils";
+import { generateSocketInstace } from "@/lib/socket-client";
+import { handleErrorApi } from "@/lib/utils";
 import { useAppStore } from "@/components/app-provider";
 export default function GuestLoginForm() {
   const searchParams = useSearchParams();
